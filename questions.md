@@ -1,0 +1,16 @@
+GDT和LDT中，load段选择子，段选择子哪里来？段寄存器多少位？
+
+0x000080000000到0xFFFF7FFFFFFFFFFF为什么是非法的non-canonical地址？**done**，因为去掉前面的0000或FFFF，80000000到7FFFFFFFFFFF与高位的重复了。
+
+0xFFFFFFFF_FFFFFFFFF
+
+0xFFFF8000_00000000
+
+0xFFFF7FFF_FFFFFFFF
+
+0x0000~~8000_00000000~~
+
+
+
+**远指针**
+
