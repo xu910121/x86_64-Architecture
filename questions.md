@@ -35,3 +35,5 @@ GDT和LDT中，load段选择子，段选择子哪里来？段寄存器多少位�
 **异常**
 
 何为trap类型的异常？？？
+
+eflags.RF作用？标志是trap类异常，然后让iret返回时，弹出eflags？？？？
