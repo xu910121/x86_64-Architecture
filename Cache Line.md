@@ -208,23 +208,27 @@ M状态和I状态
 
 **MESI定律**：在所有的脏缓存段（M状态）被回写后，任意缓存级别的所有缓存段中的内容，和它们对应的内存中的内容一致。此外，在任意时刻，当某个位置的内存被一个处理器加载入独占缓存段时（E状态），那它就不会再出现在其他任何处理器的缓存中。
 
+**为共享（false sharing）**
+
+​	发生在不同处理器上的线程修改位于同一个Cache line的变量的情况下（本来每个线程都访问不同的数据，不会造成同步问题，但因为数据都处于同一cache line中，根据MESI协议，cache line中任意数据的修改都要同步给其他核，导致不同步的操作变成同步了）
+
+​	这会导致cache line失效并强制刷新，因此导致性能下降。
+
+![img](assets/1389146-4af59c0f9ca28112.webp)
+
+​	**解决办法**：字节对齐，将字节填满一个cache line。
+
+## MESI状态迁移
+
+​	AMD的Opteron处理器使用MESI中演化出的MOESI协议，O（Owned）是MESI中S和M的一个合体，表示Cache Line被修改，和内存中的数据不一致，不过其他的核可以有这份数据的拷贝，状态为S。
+
+​	Intel的core i7处理器使用从MESI中演化出的MESIF协议，F（Forward）从Share中演化而来，一个Cache Line如果是Forward状态，它可以把数据直接传给其他内核的Cache，而Share则不能。
 
 
 
+**扩展**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+​	系统软件可以使用INVD指令发起设置Cache Line无效，强迫写往memory（data cache不回写，将丢失），使用WBINVD指令回写所有Modified状态的cache Line并将这些cache Line置为I状态。CLFLUSH指令提供一个需要flush的地址，将包含这个地址的cache line回写到memory上。
 
 
 
